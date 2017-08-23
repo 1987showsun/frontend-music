@@ -1,0 +1,125 @@
+.list{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4px;
+  >li{
+    display: flex;
+    figure{
+      width: 100%;
+      img{
+        width: 100%;
+      }
+      figcaption{
+        color: #999;
+        display: block;
+        padding: 3px 5%;
+      }
+    }
+    a{
+      color: #999;
+      text-decoration: none;
+    }
+  }
+  &.Block{
+    &.model1{
+      &.style1{
+        >li{
+          padding: 3px;
+          width: 11.1111%;
+          h2{
+            font-size: 0.9em;
+            margin-bottom: 3px;
+          }
+          h3{
+            font-size: 0.6em;
+          }
+        }
+      }
+    }
+  }
+  &.Column{
+    &.model1{
+      &.style1{
+        >li{
+          width: 100%;
+          height: 40px;
+          >ul{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            >li{
+              display: inline-block;
+              align-self: center;
+              padding: 5px;
+              white-space:nowrap;
+              text-overflow:ellipsis;
+              -o-text-overflow:ellipsis;
+              overflow:hidden;
+            }
+          }
+        }
+      }
+    }
+
+    &.style1{
+      font-size: 0.9em;
+      &.songsList{
+        >li{
+          border-bottom: 1px solid #222;
+          >ul{
+            >li{
+              color: #666;
+              &.nu{
+                width: 10%;
+                text-align: center;
+              }
+              &.name{
+                width: 50%;
+                cursor: pointer;
+              }
+              &.time{
+                width: 15%;
+                text-align: center;
+              }
+              &.action{
+                width: 20%
+              }
+            }
+          }
+          &:hover{
+            background-color: #222;
+          }
+        }
+      }
+
+      &.playList{
+        >li{
+          background-color: #333;
+          margin-bottom: 4px;
+          cursor: pointer;
+          >ul{
+            >li{
+              color: #999;
+              &.nu{
+                width: 15%;
+                text-align: center;
+              }
+              &.name{
+                width: 60%;
+              }
+              &.time{
+                width: 25%;
+                text-align: center;
+              }
+            }
+          }
+          &:hover{
+            background-color: #444;
+          }
+        }
+      }
+    }
+  }
+}
