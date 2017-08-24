@@ -12,7 +12,6 @@ import MainBanner from '../module/mainBanner';
 import BlockList  from '../module/listBlock';
 import Footer     from '../common/Footer.js';
 
-import $mainBanner from '../../public/javascripts/mainBanner.js';
 import '../../public/stylesheets/index.scss';
 
 @connect((store) => {
@@ -27,7 +26,7 @@ export default class Index extends React.Component{
   componentDidMount() {
     this.props.dispatch(mainBannerActions());
     this.props.dispatch(hitoAlbumAction());
-    $mainBanner();
+    
   }
 
   render(){

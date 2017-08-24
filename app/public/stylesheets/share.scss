@@ -6,8 +6,22 @@ $shareWidth : 100vw;
   border-radius: $val;
 }
 
+input,button{
+  height: 45px;
+  border: none;
+  display: block;
+  -webkit-appearance:none;
+  padding: 10px;
+  font-size: 1em;
+  color: #fff;
+  @include radius(3px);
+}
+
 ul{
   list-style-type: none;
+}
+a{
+  text-decoration: none;
 }
 
 *{
@@ -39,6 +53,7 @@ body{
     }
     #wrapper{
       width: 100%;
+      min-height: 100vh;
       display: flex;
       flex-wrap: wrap;
     }
@@ -73,6 +88,30 @@ body{
         align-items: center;
         font-size: 1.5em;
       }
+
+      .member{
+        width: 100%;
+        margin: 10px 0px;
+        padding: 15px 0px;
+        border-top: 1px solid #444;
+        border-bottom: 1px solid #444;
+        >a,span{
+          display: inline-block;
+        }
+        span{
+          width: 4%;
+        }
+        >a{
+          width: 48%;
+          padding: 7px 0px;
+          background-color: #666;
+          color:#fff;
+          font-size: 0.9em;
+          text-align: center;
+          @include radius(4px);
+        }
+      }
+
       a{
         display: block;
         padding: 5px 0px;
@@ -112,6 +151,72 @@ body{
           width: 18%;
           height: 100vh;
           background-color: #252528;
+        }
+      }
+    }
+  }
+}
+
+#member{
+  width     : 100%;
+  max-width : 400px;
+  padding   : 15px;
+  display   : block;
+  margin    : auto;
+  background: #252528;
+  .logo{
+    width: 100%;
+    padding: 0px 0px 15px 0px;
+    text-align: center;
+    display: block;
+    color: #fff;
+    font-size: 1.6em;
+    a{
+      color: #fff;
+    }
+  }
+  input{
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #323235;
+  }
+  button{
+    width: 100%;
+    margin-bottom: 25px;
+    &.login{
+      background-color: #E62117;
+    }
+    &.back{
+      font-size: 0.8em;
+      background-color: transparent;
+      border: 1px solid #444;
+    }
+  }
+  p{
+    font-size: 0.8em;
+    color: #fff;
+    text-align: center;
+    a{
+      color: #E62117;
+    }
+  }
+  ul{
+    &.shear{
+      margin-top: 20px;
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+      >li{
+        width: 40px;
+        height: 40px;
+        background-color: #fff;
+        display: inline-block;
+        flex-wrap: wrap;
+        margin: 0px 5px;
+        a{
+          width: 100%;
+          height: 100%;
+          display: inline-flex;
         }
       }
     }

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import $mainBanner from '../../public/javascripts/mainBanner.js';
+
 export default class MainBanner extends React.Component{
 
   constructor(){
@@ -7,6 +9,9 @@ export default class MainBanner extends React.Component{
     this.state = {
       data : []
     }
+  }
+  componentDidMount() {
+    $mainBanner();
   }
 
   render(){

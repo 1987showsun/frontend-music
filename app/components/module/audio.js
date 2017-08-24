@@ -1,13 +1,9 @@
 import React,{Component}  from 'react';
 import { connect }        from 'react-redux';
 import $                  from 'jquery';
-import ReactAudioPlayer from 'react-audio-player';
+import ReactAudioPlayer   from 'react-audio-player';
 
 class Audio extends React.Component{
-
-  componentDidMount() {
-
-  }
 
   render(){
     return(

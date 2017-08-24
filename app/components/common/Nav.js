@@ -52,6 +52,11 @@ export default class Nav extends React.Component{
             {showData}
           </ul>
         </div>
+        <div className="member">
+          <Link to="/member/login">LOGIN</Link>
+          <span></span>
+          <Link to="/member/enter">JOIN</Link>
+        </div>
       </nav>
     );
   }

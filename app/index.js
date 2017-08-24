@@ -11,6 +11,8 @@ import Songs    from './components/Album/songs';
 import About    from './components/About';
 import User     from './components/User';
 import Contacts from './components/Contacts';
+import Member   from './components/member'
+import LoginPage    from './components/member/login';
 
 export default class Routers extends React.Component{
   render(){
@@ -23,6 +25,9 @@ export default class Routers extends React.Component{
           <Route path="user" component={User} />
           <Route path="contacts" component={Contacts} />
           <Route path="album/:id" component={Songs} />
+        </Route>
+        <Route path="member" component={Member}>
+          <Route path="login" component={LoginPage} />
         </Route>
       </Router>
     );
