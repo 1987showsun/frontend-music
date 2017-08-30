@@ -11,7 +11,7 @@ Album List Page
 <img src="http://13.112.66.95/img/albumList.png"/>
 
 Songs List Page
-<img src="http://13.112.66.95/img/albumList.png"/>
+<img src="http://13.112.66.95/img/songsList.png"/>
 
 Member List Page
 <img src="http://13.112.66.95/img/member1.png"/>
