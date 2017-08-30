@@ -1,6 +1,7 @@
 <h2>MUZIC BOX Page</h2> 
 Framework   : 1.React  2.React-Router  3.Redux <br/>
-Online time : Comming Soon
+Online time : Comming Soon<br/>
+Back End    : NodeJS Express （ Self-developed ）
 
 <h3>Example Images</h3>
 
