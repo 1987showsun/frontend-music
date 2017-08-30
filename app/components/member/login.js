@@ -1,5 +1,5 @@
 import React                  from 'react';
-import {Link,browserHistory}  from 'react-router'
+import {Link,browserHistory,hashHistory}  from 'react-router'
 import { connect }            from 'react-redux';
 
 //reducer
@@ -10,6 +10,7 @@ import { connect }            from 'react-redux';
     login  : store.login.data
   };
 })
+
 
 export default class LoginPage extends React.Component{
 
@@ -49,11 +50,15 @@ export default class LoginPage extends React.Component{
     window.history.go(-1);
   }
 
-  render(){
-    const {login} = this.props;
-    if( login.success ){
-      browserHistory.push('/');
+  componentWillReceiveProps(nextProps) {
+    console.log('123',nextProps.login.success);
+    if( nextProps.login.success ){
+      location.href = '/'
+      //hashHistory.push('/');
     }
+  }
+
+  render(){
 
     return(
       <div id="member">

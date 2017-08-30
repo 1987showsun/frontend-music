@@ -1,4 +1,4 @@
-import React from 'react';
+import React            from 'react';
 import { connect }      from "react-redux";
 
 //redux action
@@ -22,6 +22,7 @@ export default class Album extends React.Component{
     super();
     this.state = {
       params : '',
+      search : ''
     }
   }
 
@@ -35,11 +36,26 @@ export default class Album extends React.Component{
     })
   }
 
+  handleChange(e){
+    this.setState({
+      [e.target.name] : this.target.value
+    })
+  }
+
   render(){
     const {albumList} = this.props;
     return(
       <div className="content left">
-        <BlockList data={albumList}/>
+        <div className="in">
+          <div className="pageHeader">
+            <div className="pageTitle">Popular Albums</div>
+            <div className="search">
+              <input type="search" value="" onChange={this.handleChange.bind(this)} placeholder="search album name"/>
+              <button type="search" onClick=""></button>
+            </div>
+          </div>
+          <BlockList data={albumList}/>
+        </div>
       </div>
     );
   }

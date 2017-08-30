@@ -4,15 +4,17 @@ import { Router, Route, IndexRoute, browserHistory,hashHistory } from 'react-rou
 import {Provider} from 'react-redux';
 import store    from "./store";
 
-import Layout   from './components/common/Layout';
-import Home     from './components/Home';
-import Album    from './components/Album/index';
-import Songs    from './components/Album/songs';
-import About    from './components/About';
-import User     from './components/User';
-import Contacts from './components/Contacts';
-import Member   from './components/member'
+import Layout       from './components/common/Layout';
+import Home         from './components/Home';
+import Album        from './components/Album/index';
+import Songs        from './components/Album/songs';
+import About        from './components/About';
+import User         from './components/User';
+import Contacts     from './components/Contacts';
+import Member       from './components/member'
 import LoginPage    from './components/member/login';
+import MemberInfo   from './components/member/MemberInfo';
+import Collection   from './components/member/collection'
 
 export default class Routers extends React.Component{
   render(){
@@ -25,6 +27,9 @@ export default class Routers extends React.Component{
           <Route path="user" component={User} />
           <Route path="contacts" component={Contacts} />
           <Route path="album/:id" component={Songs} />
+          <Route path="m-info" component={MemberInfo}>
+            <Route path=":theme" component={Collection}/>
+          </Route>
         </Route>
         <Route path="member" component={Member}>
           <Route path="login" component={LoginPage} />

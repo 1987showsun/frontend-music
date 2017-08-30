@@ -19,11 +19,21 @@ class Playlist extends React.Component{
     this.props.dispatch( editPlayListAction() );
   }
 
-  render(){
+  selectRender(){
     const {playList} = this.props;
-    return(
-      <ColumnList data={playList} tdNumber="3" type='playList'/>
-    )
+    if(playList.data.length==0){
+      return(
+        <div id="playListNote">!! No Songs !!</div>
+      )
+    }else{
+      return(
+        <ColumnList data={playList} tdNumber="3" type='playList'/>
+      )
+    }
+  }
+
+  render(){
+    return this.selectRender();
   }
 }
 
@@ -33,4 +43,4 @@ function mapStateToProps(state){
   }
 }
 
-export default connect(mapStateToProps)(Playlist)
+export default connect(mapStateToProps)(Playlist);

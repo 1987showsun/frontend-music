@@ -3,9 +3,21 @@ import { connect }        from 'react-redux';
 import $                  from 'jquery';
 import ReactAudioPlayer   from 'react-audio-player';
 
-class Audio extends React.Component{
+var onplaySongsId = '';
+
+
+export default class Audio extends React.Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      playList      : [],
+      selectListen  : [],
+    }
+  }
 
   render(){
+    this.audioAction();
     return(
       <div id="audio">
         <div className="audioShear left">
@@ -28,81 +40,103 @@ class Audio extends React.Component{
     );
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    this.audioAction();
+  componentWillReceiveProps(nextProps,nextState){
+    if(nextProps.data.selectListen!=undefined){
+      this.setState({
+        playList     : nextProps.data.data,
+        selectListen : nextProps.data.selectListen
+      })
+    }
   }
 
   audioAction(){
-    const {playList} = this.props;
-    const selectListen = playList.selectListen || [];
-    var src = '';
-    if( selectListen!=null ){
-      src = selectListen.filenam;
-      audioAction(playList,src);
+    const selectListen  = this.state.selectListen;
+    const playList      = this.state.playList;
+    if(selectListen!=''){
+      audioAction(selectListen,playList);
     }
   }
 }
 
-function audioAction(playList,src){
-  var audioId = document.getElementById('player');
-  if( src!=undefined ){
-    audioId.src = src;
-    audioId.onloadedmetadata = function() {
-      audioId.play();
-      var totalTime = audioId.duration;
-      controls(audioId,playList);
-      timeLine(audioId,totalTime);
-    }
+
+//Audio javascript
+function audioAction(selectListen,playList){
+  onplaySongsId = selectListen._id;
+  var audioId   = document.getElementById('player');
+
+  audioId.src = selectListen.filenam;
+  audioId.onloadedmetadata = function(){
+    audioId.play();
+    controls.initial(audioId,playList);
+    timeLine.initial(audioId);
   }
 }
 
-const controls = (audioId,playList) => {
+//控制台
+var controls = {
 
-  $('.status').off().on({
-    click : function(){
-      var nowClass = $(this).attr('class').split(' ');
-      if( nowClass.indexOf('play')>=0 ){
-        audioId.play();
-        $(this).removeClass('play').addClass('pause');
-      }else{
-        audioId.pause();
-        $(this).removeClass('pause').addClass('play');
-      }
+  initial : function(audioId,playList){
+    audioId.onplaying = function(){
+      $('.status').removeClass('play').addClass('pause');
     }
-  })
-
-  $('.changeStatus').off().on({
-    click : function(){
-      var touchClass = $(this).attr('class').split(' ');
-      if( touchClass.indexOf('prev')>=0 ){
-        playList.data.map((item,i,array)=>{
-          if( item._id==playList.selectListen._id  ){
-            i--;
-            console.log( array[i] );
-          }
-        })
-      }else{
-
-      }
+    audioId.onpause = function(){
+      $(this).removeClass('pause').addClass('play');
     }
-  })
-}
+    controls.playPause(audioId);
+    controls.changeAudio(audioId,playList);
+  },
 
-const timeLine = (audioId,totalTime) => {
-  var timeLine_W = $('#timeLine').width(),
-      now_w      = 0;
-  audioId.ontimeupdate = function(){
-    now_w = (audioId.currentTime / totalTime)*100;
-    $('#timeLine').find('>.line').css({
-      width : now_w+'%',
+  playPause : function(audioId){
+    $('.status').off().on({
+      click : function(){
+        var nowClass = $(this).attr('class').split(' ');
+        if( nowClass.indexOf('play')>=0 ){
+          audioId.play();
+          $(this).removeClass('play').addClass('pause');
+        }else{
+          audioId.pause();
+          $(this).removeClass('pause').addClass('play');
+        }
+      }
+    })
+  },
+
+  changeAudio : function(audioId,playList){
+    var playListLength = playList.length;
+    $('.changeStatus').off().on({
+      click : function(){
+        var touchClass = $(this).attr('class').split(' ');
+        if( touchClass.indexOf('prev')>=0 ){
+          playList.map((item,i,array)=>{
+            if( item._id==onplaySongsId ){
+              i-- ;
+              if( i < 0 ){
+                i = playListLength-1;
+              }
+              onplaySongsId = array[i]._id;
+              audioId.src   = array[i].filenam;
+            }
+          });
+        }else{
+
+        }
+      }
     })
   }
 }
 
-function mapStateToProps(state){
-  return{
-    playList : state.playList
+//時間軸
+var timeLine = {
+  initial : function(audioId,totalTime){
+    var timeLine_W = $('#timeLine').width(),
+        now_w      = 0,
+        totalTime  = audioId.duration;;
+
+    audioId.ontimeupdate = function(){
+      now_w = (audioId.currentTime / totalTime)*100;
+      $('#timeLine').find('>.line').css({
+        width : now_w+'%',
+      })
+    }
   }
 }
-
-export default connect(mapStateToProps)(Audio)

@@ -6,8 +6,9 @@ import Header           from '../common/Header.js';
 import Playlist         from '../module/playlist';
 import Audio            from '../module/audio';
 
-export default class Layout extends React.Component{
+class Layout extends React.Component{
   render(){
+    const {playList} = this.props;
     return(
       <div id="wrapper">
         <Nav />
@@ -17,8 +18,16 @@ export default class Layout extends React.Component{
             <Playlist />
           </div>
         </div>
-        <Audio />
+        <Audio data={playList}/>
       </div>
     );
   }
 }
+
+function mapStateToProps(state){
+  return{
+    playList : state.playList
+  }
+}
+
+export default connect(mapStateToProps)(Layout);

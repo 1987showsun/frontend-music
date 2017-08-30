@@ -6,6 +6,7 @@ import albumList    from './albumListReducer';
 import songsList    from './songsListReducer';
 import playList     from './playListReducer';
 import login        from './loginReducer';
+import collection   from './collectionReducer';
 
 export default combineReducers({
   mainBanner,
@@ -13,5 +14,6 @@ export default combineReducers({
   albumList,
   songsList,
   playList,
-  login
+  login,
+  collection
 })
