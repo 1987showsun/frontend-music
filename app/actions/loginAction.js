@@ -35,3 +35,20 @@ export function loginProtectedAction(token){
       })
   }
 }
+
+export function joinMemberAction(data){
+  return function(dispatch){
+    axios.get('http://localhost:5000/member/join',{
+        params : {
+          data : data
+        }
+      })
+      .then((data) => {
+        dispatch({type: "FETCH_LOGIN_FULFILLED", paylod:data.data});
+      })
+      .catch((err) => {
+        const message = '';
+        dispatch({type: "FETCH_LOGIN_REJECTED" , payload: message});
+      })
+  }
+}

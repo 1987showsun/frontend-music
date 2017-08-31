@@ -1,0 +1,8 @@
+$shareWidth : 100vw;
+$mainColor1 : #E62117;
+
+@mixin radius($val) {
+  -moz-border-radius: $val;
+  -webkit-border-radius: $val;
+  border-radius: $val;
+}

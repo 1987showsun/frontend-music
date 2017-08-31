@@ -58,7 +58,8 @@ class Nav extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      search : ''
+      search : '',
+      info   : [],
     }
   }
 
@@ -68,16 +69,16 @@ class Nav extends React.Component{
     });
   }
 
-  handleSubmit(){
-    //this.props.dispatch( loginAction(this.state) );
-  }
-
   showMainNavData(){
-    const navData   = mainNavArray || [];
-
-    const showNavData  = navData.map((item,i)=>{
+    console.log(this.props.params);
+    const navData       = mainNavArray || [];
+    const showNavData   = navData.map((item,i)=>{
+      var active = '';
+      if( item.path==this.props.params.paramName ){
+        active = 'active';
+      }
       return(
-        <li><Link to={'/info/'+item.path} key={i}>{item.english}</Link></li>
+        <li className={active}><Link to={'/info/'+item.path} key={i}>{item.english}</Link></li>
       )
     })
     return showNavData;
@@ -93,6 +94,19 @@ class Nav extends React.Component{
     return showVicData;
   }
 
+  handleChange(e){
+
+  }
+  handleSubmit(e){
+
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      info : nextProps.info.data[0]
+    })
+  }
+
   memberStatus(){
     const token     = JSON.parse(sessionStorage.getItem('login'))|| '';
     if( token=='' ){
@@ -100,20 +114,20 @@ class Nav extends React.Component{
         <div className="member">
           <Link to="/member/login">LOGIN</Link>
           <span></span>
-          <Link to="/member/enter">JOIN</Link>
+          <Link to="/member/join">JOIN</Link>
         </div>
       )
     }else{
-      const {info}   = this.props;
-      if(info!=''){
+      if(this.props.info!=''){
         return(
           <div className="member">
-            <div className="signInOk img"><img src={info.data[0].headShot} alt="" title=""/></div>
+            <div className="signInOk img">
+              <img src={this.props.info.data[0].headShot} alt="" title=""/>
+            </div>
             <div className="signInOk text">
               <span className="name">
-                <Link to="/m-info">{info.data[0].name}</Link>
+                <Link to="/m-info">{this.props.info.data[0].name}</Link>
               </span>
-              <span className="level">{info.data[0].level}</span>
             </div>
           </div>
         )
@@ -136,16 +150,18 @@ class Nav extends React.Component{
           <Link to="/">MUZIC BOX</Link>
         </div>
         <div className="navBlock">
-          <input type="search" name="search" value={this.state.search} onChange={this.handleChange.bind(this)} placeholder="search all"/>
+          <input type="search" name="search" value={this.state.search} onChange={this.handleChange.bind(this)} placeholder="search all" />
           <button type="search" className="search" onClick={this.handleSubmit.bind(this)}></button>
         </div>
-        <div className="navBlock">
+        <div className="navBlock notPadding">
           <ul className="navbar-nav">
             {this.showMainNavData()}
           </ul>
         </div>
-        { this.memberStatus() }
         <div className="navBlock">
+          { this.memberStatus() }
+        </div>
+        <div className="navBlock notPadding">
           <ul className="navbar-nav">
             {this.showVicData()}
           </ul>

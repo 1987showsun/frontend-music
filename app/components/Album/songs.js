@@ -16,19 +16,34 @@ import AlbumAbout from '../module/albumAbout';
 
 
 class Songs extends React.Component{
+
+  constructor(props){
+    super(props);
+    this.state = {
+      albumAbout : [],
+      songsList  : []
+    }
+  }
+
   componentDidMount() {
     this.props.dispatch( songsListAction(this.props));
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      albumAbout : nextProps.songsList.album,
+      songsList  : nextProps.songsList.data
+    })
+  }
+
   selectRender(){
-    const {songsList} = this.props;
-    if( songsList.data==undefined || songsList.data.length==0 ){
+    if( this.state.songsList==[] ){
       return(
         <div id="songsListNote">No Songs Data</div>
       )
     }else{
       return(
-        <ColumnList data={songsList} tdNumber='4' type='songsList'/>
+        <ColumnList data={this.state.songsList} tdNumber='4' type='songsList'/>
       )
     }
   }
@@ -37,7 +52,7 @@ class Songs extends React.Component{
     const {songsList} = this.props;
     return(
       <div className="content left">
-        <AlbumAbout data={songsList.album} />
+        <AlbumAbout data={this.state.albumAbout} />
         {this.selectRender()}
       </div>
     );

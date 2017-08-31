@@ -6,7 +6,8 @@ import $          from 'jquery';
 import {collectionAction} from '../../actions/collectionAction';
 
 //Component
-import ColumnList from '../module/listColumn';
+import ColumnList3 from '../module/listColumn3';
+import ColumnList4 from '../module/listColumn4';
 import BlockList  from '../module/listBlock';
 
 const theme = ['albumCollection','songsCollection','playRecord'];
@@ -19,12 +20,14 @@ const theme = ['albumCollection','songsCollection','playRecord'];
 
 class Collection extends React.Component{
 
-  getInitialState() {
-    return {
+  constructor(props){
+    super(props);
+    this.state = {
+      id            : '',
       params        : '',
-      collection    : [],
-      data          : [],
-    };
+      callSwitch    : false,
+      data          : []
+    }
   }
 
   dispatchAction(_params,_id){
@@ -32,7 +35,6 @@ class Collection extends React.Component{
   }
 
   theme(){
-
     const _render         = '';
     const {memberInfo}    = this.props;
     const _params         = this.props.params.theme || theme[0];
@@ -44,42 +46,42 @@ class Collection extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    const _data  = nextProps.collection.data || [];
+
+    var _params = (nextProps.params.theme!=undefined)? nextProps.params.theme : theme[0],
+        _id     = nextProps.memberInfo.data.data[0]._id;
+
     this.setState({
-      collection : nextProps.collection,
-      data       : _data,
-      params     : nextProps.params,
+      id         : _id,
+      data       : (nextProps.collection.data!=undefined)? nextProps.collection.data : [],
+      params     : _params,
     })
   }
 
   componentDidMount() {
-    this.theme();
+    this.setState({
+      params : theme[0]
+    })
   }
 
   render(){
-    if( this.props.collection!='' ){
-      if( this.props.params.theme==theme[0] ){
-        return (
-          <div className="bottom">
-            <BlockList data={this.props.collection}/>
-          </div>
-        )
-      }else{
-        return (
-          <div className="bottom">
-            <ColumnList data={this.props.collection} tdNumber="4" type="songsList"/>
-          </div>
-        )
-      }
+    if( this.state.params==theme[0] ){
+      return (
+        <div className="bottom">
+          <BlockList data={this.state.data}/>
+        </div>
+      )
     }else{
-      return (null);
+      return (
+        <div className="bottom">
+          <ColumnList4 data={this.state.data} tdNumber="4" type="songsList"/>
+        </div>
+      )
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if(this.state.collection == prevProps.collection ){
-      this.theme();
-    }
+
+    //選單錨點
     $('#navigation').find('>li').removeClass('active');
     if( prevProps.params==this.state.params ){
       theme.map((item,i)=>{

@@ -23,19 +23,31 @@ import '../../public/stylesheets/index.scss';
 
 export default class Index extends React.Component{
 
+  constructor(props){
+    super(props);
+    this.state = {
+      mainBanner: [],
+      albumList : [],
+    }
+  }
+
   componentDidMount() {
     this.props.dispatch(mainBannerActions());
     this.props.dispatch(hitoAlbumAction());
-    
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      mainBanner : nextProps.mainBanner.data,
+      albumList  : nextProps.hitoAlbum.data
+    })
   }
 
   render(){
-    const {mainBanner,hitoAlbum} = this.props;
-
     return(
       <div className="content left">
-        <MainBanner data={mainBanner} />
-        <BlockList data={hitoAlbum}/>
+        <MainBanner data={this.state.mainBanner} />
+        <BlockList  data={this.state.albumList}/>
         <Footer />
       </div>
     );

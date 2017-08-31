@@ -1,80 +1,88 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {Link} from 'react-router';
+import React      from 'react';
+import {connect}  from 'react-redux';
+import {Link,browserHistory}     from 'react-router';
 
 class MemberInfo extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
-      memberInfo : [],
+      login : [],
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.memberInfo!=undefined){
+  componentDidMount() {
+    const {login} = this.props;
+    if( login.data.data!=undefined ){
       this.setState({
-        memberInfo : nextProps.memberInfo.data.data
+        login : login.data.data[0]
       })
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    console.log('123');
+    this.setState({
+      login : nextProps.login.data.data[0]
+    })
+  }
+
   setContent(){
-    const {memberInfo} = this.props;
-    if( memberInfo.data!='' ){
-      return(
-        <div className="top">
-          <div className="headShot">
-            <img src={memberInfo.data.data[0].headShot} alt="" title=""/>
-          </div>
-          <div className="info">
-            <ul className="list Column model1 style1">
-              <li>
-                <ul>
-                  <li className="infoTitle">Member ID</li>
-                  <li className="infoContent">{memberInfo.data.data[0]._id}</li>
-                </ul>
-              </li>
-              <li>
-                <ul>
-                  <li className="infoTitle">Member Status</li>
-                  <li className="infoContent">{memberInfo.data.data[0].status}</li>
-                </ul>
-              </li>
-              <li>
-                <ul>
-                  <li className="infoTitle">Username</li>
-                  <li className="infoContent">{memberInfo.data.data[0].username}</li>
-                </ul>
-              </li>
-              <li>
-                <ul>
-                  <li className="infoTitle">Name</li>
-                  <li className="infoContent">{memberInfo.data.data[0].name}</li>
-                </ul>
-              </li>
-              <li>
-                <ul>
-                  <li className="infoTitle">Tel</li>
-                  <li className="infoContent">{memberInfo.data.data[0].tel}</li>
-                </ul>
-              </li>
-              <li>
-                <ul>
-                  <li className="infoTitle">Address</li>
-                  <li className="infoContent">{memberInfo.data.data[0].address}</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
+    return(
+      <div className="top">
+        <div className="headShot">
+          <img src={this.state.login.headShot} alt="" title=""/>
         </div>
-      )
-    }
+        <div className="info">
+          <ul className="list Column model1 style1">
+            <li>
+              <ul>
+                <li className="infoTitle">Member ID</li>
+                <li className="infoContent">{this.state.login._id}</li>
+              </ul>
+            </li>
+            <li>
+              <ul>
+                <li className="infoTitle">Member Status</li>
+                <li className="infoContent">{this.state.login.status}</li>
+              </ul>
+            </li>
+            <li>
+              <ul>
+                <li className="infoTitle">Username</li>
+                <li className="infoContent">{this.state.login.username}</li>
+              </ul>
+            </li>
+            <li>
+              <ul>
+                <li className="infoTitle">Name</li>
+                <li className="infoContent">{this.state.login.name}</li>
+              </ul>
+            </li>
+            <li>
+              <ul>
+                <li className="infoTitle">Tel</li>
+                <li className="infoContent">{this.state.login.tel}</li>
+              </ul>
+            </li>
+            <li>
+              <ul>
+                <li className="infoTitle">Address</li>
+                <li className="infoContent">{this.state.login.address}</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    )
   }
 
   render(){
-    console.log(this.state.memberInfo);
-    const {memberInfo} = this.props;
+    const loginStatus = JSON.parse(sessionStorage.getItem('login')) || false;
+    if( !loginStatus ){
+      browserHistory.push('/');
+    }
+
     return(
       <div className="content left">
         <div className="member">
@@ -103,7 +111,7 @@ class MemberInfo extends React.Component{
 
 function mapStateToProps(state){
   return{
-    memberInfo : state.login
+    login : state.login
   }
 }
 

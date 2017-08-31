@@ -4,8 +4,7 @@ import {Link} from 'react-router';
 
 export default class BlockList extends React.Component{
   render(){
-    const data = this.props.data['data'] || [];
-    const renderArray = data.map((item,i)=>{
+    const renderArray = this.props.data.map((item,i)=>{
       return(
         <li ref={item._id} key={item._id}>
           <figure>

@@ -9,27 +9,34 @@ import ColumnList       from './listColumn';
 
 class Playlist extends React.Component{
 
-  getInitialState() {
-    return {
+  constructor(props){
+    super(props);
+    this.state = {
       playlist : [],
-    };
+    }
   }
 
   componentDidMount() {
     this.props.dispatch( editPlayListAction() );
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      playlist : nextProps.playList.data,
+    })
+  }
+
   selectRender(){
-    const {playList} = this.props;
-    if(playList.data.length==0){
+    if(this.state.playlist==[]){
       return(
         <div id="playListNote">!! No Songs !!</div>
       )
     }else{
       return(
-        <ColumnList data={playList} tdNumber="3" type='playList'/>
+        <ColumnList data={this.state.playlist} tdNumber="3" type='playList'/>
       )
     }
+    //<ColumnList data={this.state.playlist} tdNumber="3" type='playList'/>
   }
 
   render(){

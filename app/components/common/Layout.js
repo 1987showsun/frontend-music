@@ -9,16 +9,17 @@ import Audio            from '../module/audio';
 class Layout extends React.Component{
   render(){
     const {playList} = this.props;
+    const {params} = this.props;
     return(
       <div id="wrapper">
-        <Nav />
+        <Nav params={params}/>
         <div className="container">
           {this.props.children}
           <div className="content right">
             <Playlist />
           </div>
         </div>
-        <Audio data={playList}/>
+        <Audio/>
       </div>
     );
   }

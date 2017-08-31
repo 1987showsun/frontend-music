@@ -13,8 +13,9 @@ import User         from './components/User';
 import Contacts     from './components/Contacts';
 import Member       from './components/member'
 import LoginPage    from './components/member/login';
+import JoinPage    from './components/member/join';
 import MemberInfo   from './components/member/MemberInfo';
-import Collection   from './components/member/collection'
+import Collection   from './components/member/collection';
 
 export default class Routers extends React.Component{
   render(){
@@ -33,6 +34,7 @@ export default class Routers extends React.Component{
         </Route>
         <Route path="member" component={Member}>
           <Route path="login" component={LoginPage} />
+          <Route path="join" component={JoinPage} />
         </Route>
       </Router>
     );

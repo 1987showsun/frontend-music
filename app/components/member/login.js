@@ -1,6 +1,6 @@
-import React                  from 'react';
+import React                              from 'react';
 import {Link,browserHistory,hashHistory}  from 'react-router'
-import { connect }            from 'react-redux';
+import { connect }                        from 'react-redux';
 
 //reducer
  import {loginAction} from '../../actions/loginAction';
@@ -51,10 +51,8 @@ export default class LoginPage extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('123',nextProps.login.success);
     if( nextProps.login.success ){
-      location.href = '/'
-      //hashHistory.push('/');
+      window.history.go(-1);
     }
   }
 

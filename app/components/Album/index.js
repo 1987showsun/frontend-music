@@ -22,7 +22,8 @@ export default class Album extends React.Component{
     super();
     this.state = {
       params : '',
-      search : ''
+      search : '',
+      albumList : []
     }
   }
 
@@ -32,7 +33,8 @@ export default class Album extends React.Component{
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      params : nextProps.params.paramName,
+      params    : nextProps.params.paramName,
+      albumList : nextProps.albumList.data
     })
   }
 
@@ -43,7 +45,6 @@ export default class Album extends React.Component{
   }
 
   render(){
-    const {albumList} = this.props;
     return(
       <div className="content left">
         <div className="in">
@@ -54,7 +55,7 @@ export default class Album extends React.Component{
               <button type="search" onClick=""></button>
             </div>
           </div>
-          <BlockList data={albumList}/>
+          <BlockList data={this.state.albumList}/>
         </div>
       </div>
     );

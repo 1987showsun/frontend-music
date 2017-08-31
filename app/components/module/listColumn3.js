@@ -6,11 +6,11 @@ import { playlistAction, selectListenAction }  from "../../actions/playListActio
 
 @connect((store) =>{
   return {
-    playList      : store.playList.data,
+    playList  : store.playList.data
   };
 })
 
-class ColumnList extends React.Component{
+export default class ColumnList extends React.Component{
 
   selectSongs(id){
     this.props.dispatch( playlistAction(id) );
@@ -21,9 +21,11 @@ class ColumnList extends React.Component{
   }
 
   componentWillReceiveProps(nextProps) {
+      console.log(nextProps);
   }
 
   renderSelect(){
+    console.log('123');
     var test;
     if(this.props.data!=''){
       switch(this.props.tdNumber){
@@ -72,11 +74,3 @@ class ColumnList extends React.Component{
     )
   }
 }
-
-function mapStateToProps(state){
-  return{
-    playList : state.playList
-  }
-}
-
-export default connect(mapStateToProps)(ColumnList);
