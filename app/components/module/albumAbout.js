@@ -1,14 +1,16 @@
+var token = JSON.parse( sessionStorage.getItem('login') ) || '';
 import React,{Component}      from 'react';
 import {Link}                 from 'react-router';
 import { connect }            from 'react-redux';
 
-import {collectionAction,collectionAddAction} from '../../actions/collectionAction';
-
-const params = 'albumCollection';
+import { allAddPlaylist }                       from "../../actions/playListAction";
+import { collectionAction,collectionAddAction } from '../../actions/collectionAction';
+import { noteAction }                           from '../../actions/noteAction';
 
 @connect((store) => {
   return {
     collection  : store.collection.data,
+    note        : store.noteAction,
   };
 })
 
@@ -17,43 +19,80 @@ class AlbumAbout extends React.Component{
   constructor(props){
     super(props);
     this.state = {
-      member_id : '',
-      unfolded  : false
+      token                   : JSON.parse( sessionStorage.getItem('login') ) || [],
+      params                  : 'albumCollection',
+      member_id               : '',
+      profile                 : [],
+      albumInfo               : [],
+      albumCollection         : [],
+      unfolded                : false
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      profile         : (nextProps.profile.length!=0)?    nextProps.profile.data[0] : [],
+      albumInfo       : (nextProps.songsList.length!=0)?  nextProps.songsList.album[0] : [],
+      albumCollection : (nextProps.collection.length!=0)? nextProps.collection.data : []
+    })
+  }
+
   componentWillUpdate(nextProps, nextState) {
-    if( nextProps.login.data!=undefined ){
-      if( this.state.member_id!=nextProps.login.data[0]._id ){
+    const params    = this.state.params;
+    if( nextProps.profile.data!=undefined ){
+      if( this.state.member_id!=nextProps.profile.data[0]._id ){
+        const _id = nextProps.profile.data[0]._id;
         this.setState({
-          member_id : nextProps.login.data[0]._id
+          member_id : _id
         })
-        const _id = nextProps.login.data[0]._id;
         this.props.dispatch( collectionAction(params,_id) );
       }
     }
   }
 
   collection(selectId){
-    if(this.props.collection!=''){
-      const {login} = this.props;
-      if(login!=undefined){
-        const memberId = login.data[0]._id;
+    if(this.state.token!=''){
+      if(this.state.token.success){
+        const memberId  = this.state.profile._id;
+        const params    = this.state.params;
         this.props.dispatch( collectionAddAction(params,memberId,selectId) );
       }
+    }else{
+      const noteText = '請新登入會員在進行收藏';
+      const status   = 'notLogin';
+      this.props.dispatch( noteAction(noteText,status) );
     }
   }
 
   collectionCheck(){
-    if(this.props.collection!=''){
-      const {songsList}     = this.props;
-      const data            = this.props.collection.data;
-      const currentAlbumId  = songsList.album[0]._id;
-      for(var i=0 ; i < data.length ; i++) {
-        if( data[i]._id == currentAlbumId ){
-          return true;
-        }
+
+    var status    = false;
+    if(this.state.token!=[]){
+      if(this.state.token.success){
+        const albumId = this.state.albumInfo._id;
+        this.state.albumCollection.map( (item,i)=>{
+          if(item._id==albumId){
+            status = true;
+          }
+        })
+      }else{
+        status = false;
       }
+    }
+    return status;
+  }
+
+  allAddPlaylist(){
+    let albums_id = '';
+    if(this.state.token!=''){
+      if( this.props.songsList.data.length>0 ){
+        albums_id = this.props.songsList.data[0].albums_id;
+        this.props.dispatch( allAddPlaylist(albums_id) );
+      }
+    }else{
+      const noteText = '請新登入會員在進行收藏';
+      const status   = 'notLogin';
+      this.props.dispatch( noteAction(noteText,status) );
     }
   }
 
@@ -69,61 +108,69 @@ class AlbumAbout extends React.Component{
     })
   }
 
-  albumIntroduction(){
-    const data              = this.props.data || [];
-    const collectionStatus  = this.collectionCheck();
-
-    if( data!='' ){
+  albumContent(){
+    if( this.state.albumInfo.content!='' ){
       return(
-        <div>
-          <div className="cover">
-            <img src={data[0].albumsImg} alt="" title="" />
-          </div>
-          <div className="introduction">
+        <article className={"narrative "+this.state.unfolded}>
+          <section className="in" dangerouslySetInnerHTML={{__html: this.state.albumInfo.content}}></section>
+          <section className="action">
+            <button className="unfolded" onClick={this.Unfolded.bind(this)}>more</button>
+          </section>
+        </article>
+      )
+    }else{
+      return null;
+    }
+  }
+
+  albumIntroduction(){
+    return(
+      <main>
+        <article className="info">
+          <div className="albumBG" style={{backgroundImage: 'url('+this.state.albumInfo.albumsImg+')'}}></div>
+          <aside className="cover">
+            <img src={this.state.albumInfo.albumsImg} alt="" title="" />
+          </aside>
+          <main className="introduction">
             <ul className="list Column model2 style1 ">
-              <li className="album">{data[0].music_name_cn}</li>
-              <li className="artists">{data[0].artists}</li>
+              <li className="album">{this.state.albumInfo.music_name_cn}</li>
+              <li className="artists"><Link className="noWidth100" to={"/artists/"+this.state.albumInfo.type+'/'+this.state.albumInfo.artists_id}>{this.state.albumInfo.artists}</Link></li>
               <li className="time">
                 <ul>
-                  <li>Release date：</li>
-                  <li>{data[0].publish_time}</li>
+                  <li>Release date</li>
+                  <li><span className="colon">：</span>{this.state.albumInfo.publish_time}</li>
                 </ul>
               </li>
               <li className="inc">
                 <ul>
-                  <li>Release Inc：</li>
-                  <li>{data[0].inc}</li>
+                  <li>Release Inc</li>
+                  <li><span className="colon">：</span>{this.state.albumInfo.inc}</li>
                 </ul>
               </li>
               <li className="tag">
                 <ul>
-                  <li>Album type：</li>
-                  <li>{data[0].tag}</li>
+                  <li>Album type</li>
+                  <li><span className="colon">：</span>{this.state.albumInfo.tag}</li>
                 </ul>
               </li>
             </ul>
-            <div className="action">
-              <span className="play">Play</span>
-              <span className={"shareStyle Collection "+collectionStatus} onClick={this.collection.bind(this,data[0]._id)}>Collection</span>
-              <Link className="shareStyle more" to={"/artists/"+data[0].artists_id}>More</Link>
-            </div>
-          </div>
-          <div className={"narrative "+this.state.unfolded}>
-            <div className="in" dangerouslySetInnerHTML={{__html: data[0].content}}></div>
-            <div className="action">
-              <button className="unfolded" onClick={this.Unfolded.bind(this)}>more</button>
-            </div>
-          </div>
-        </div>
-      )
-    }
+            <section className="action">
+              <span className="play" onClick={this.allAddPlaylist.bind(this)}>Play</span>
+              <span className={"shareStyle Collection "+ this.collectionCheck() } onClick={this.collection.bind(this , this.state.albumInfo._id)}>Collection</span>
+              <Link className="shareStyle more" to={"/artists/"+this.state.albumInfo.type+'/'+this.state.albumInfo.artists_id}>More</Link>
+            </section>
+          </main>
+        </article>
+        {this.albumContent()}
+      </main>
+    )
   }
 
   render(){
     return(
-      <div className="about album">
+      <header className="about album">
         {this.albumIntroduction()}
-      </div>
+      </header>
     )
   }
 }
@@ -131,8 +178,8 @@ class AlbumAbout extends React.Component{
 function mapStateToProps(state){
   return{
     songsList   : state.songsList.data,
-    collection  : state.collection.data._id,
-    login       : state.login.data
+    collection  : state.collection.data,
+    profile     : state.login.profile
   }
 }
 

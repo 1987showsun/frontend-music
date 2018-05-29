@@ -1,5 +1,6 @@
-import React            from 'react';
-import { connect }      from 'react-redux';
+import React                      from 'react';
+import { connect }                from 'react-redux';
+import $                          from 'jquery';
 
 //redux action
 import { playlistAction,editPlayListAction }  from "../../actions/playListAction";
@@ -7,17 +8,24 @@ import { playlistAction,editPlayListAction }  from "../../actions/playListAction
 //Component
 import ColumnList       from './listColumn';
 
+//javascript
+import '../../public/javascripts/jquery.scrollbar.min.js';
+
 class Playlist extends React.Component{
 
   constructor(props){
     super(props);
     this.state = {
-      playlist : [],
+      token                   : JSON.parse( sessionStorage.getItem('login') ) || [],
+      playlist                : [],
     }
   }
 
   componentDidMount() {
     this.props.dispatch( editPlayListAction() );
+    $(document).ready(function(){
+      $('.scrollbar-outer').scrollbar();
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -27,20 +35,26 @@ class Playlist extends React.Component{
   }
 
   selectRender(){
-    if(this.state.playlist==[]){
+
+    if(this.state.playlist==0){
       return(
-        <div id="playListNote">!! No Songs !!</div>
+        <section className="message">!! No Songs !!</section>
       )
     }else{
       return(
         <ColumnList data={this.state.playlist} tdNumber="3" type='playList'/>
       )
     }
-    //<ColumnList data={this.state.playlist} tdNumber="3" type='playList'/>
   }
 
   render(){
-    return this.selectRender();
+    return (
+      <article className="scrollbar-outer">
+        <article className="in ">
+          {this.selectRender()}
+        </article>
+      </article>
+    )
   }
 }
 

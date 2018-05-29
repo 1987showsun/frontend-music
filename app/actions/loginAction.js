@@ -1,10 +1,11 @@
-import axios from 'axios';
+import axios      from 'axios';
+import mongodbURL from './dbURL';
 
 export function loginAction(data){
-
+  let url = mongodbURL();
   return function(dispatch){
     dispatch({type: "FETCH_LOGIN"});
-    axios.get('http://localhost:5000/member/signIn',{
+    axios.get(url+'/member/signIn',{
         params:{
           data : data
         }
@@ -20,8 +21,9 @@ export function loginAction(data){
 }
 
 export function loginProtectedAction(token){
+  let url = mongodbURL();
   return function(dispatch){
-    axios.get('http://localhost:5000/member/signIn/protected',{
+    axios.get(url+'/member/signIn/protected',{
         headers: {
           Authorization : 'Basic '+token
         }
@@ -36,9 +38,20 @@ export function loginProtectedAction(token){
   }
 }
 
-export function joinMemberAction(data){
+export function getAllMemberName(){
+  let url = mongodbURL();
   return function(dispatch){
-    axios.get('http://localhost:5000/member/join',{
+    axios.get(url+'/api/getAllMemberName')
+    .then((data) => {
+      dispatch({type: "GET_MEMBER_USERNAME", payload:data.data.username});
+    })
+  }
+}
+
+export function joinMemberAction(data){
+  let url = mongodbURL();
+  return function(dispatch){
+    axios.get(url+'/member/join',{
         params : {
           data : data
         }
@@ -50,5 +63,37 @@ export function joinMemberAction(data){
         const message = '';
         dispatch({type: "FETCH_LOGIN_REJECTED" , payload: message});
       })
+  }
+}
+
+export function shareLoginAction(response){
+  let url = mongodbURL();
+  return function(dispatch){
+    if(response!=undefined){
+      var data = [{
+        "username"  : response.email,
+        "password"  : "",
+        "tel"       : "",
+        "email"     : response.email,
+        "address"   : response.locale,
+        "headShot"  : response.picture.data.url,
+        "token"     : "",
+        "name"      : response.name,
+        "level"     : "General",
+        "status"    : "false"
+      }]
+      axios.get(url+'/member/share/join',{
+        params : {
+          data : data
+        }
+      })
+      .then((data) => {
+        dispatch({type: "FETCH_LOGIN_FULFILLED", paylod:data.data});
+      })
+      .catch((err) => {
+        const message = '';
+        dispatch({type: "FETCH_LOGIN_REJECTED" , payload: message});
+      })
+    }
   }
 }

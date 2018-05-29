@@ -14,8 +14,9 @@ module.exports = {
     './index.js',
   ],
   output: {
-    path: `${__dirname}/app/`,
-    filename: 'index.js',
+    path: `${__dirname}/dist/`,
+    filename: `./index.js`,
+    //filename: '/index.js',
   },
   module: {
     loaders: [
@@ -34,6 +35,9 @@ module.exports = {
     ],
   },
   devServer: {
+    historyApiFallback: true,
+    //contentBase: './dist',
+    contentBase: './app',
     inline: true,
     port: 8080,
   },

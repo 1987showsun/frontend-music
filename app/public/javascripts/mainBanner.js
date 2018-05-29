@@ -27,7 +27,9 @@ export default function(){
   })
 
   const slide = {
-    statusArray : [],
+    nowSetNumber  : [],
+    statusArray   : [],
+
     initial : function(status){
       const initialState = status;
       slide.statusArray.push(initialState);
@@ -37,6 +39,23 @@ export default function(){
         slide.liReset(initialState);
         slide.setReset(initialState);
         slide.touch(initialState);
+        slide.resizeAction(initialState);
+      }
+    },
+
+    resizeAction : function(initialState){
+      reset()
+      $(window).resize(function(e) {
+        reset()
+      });
+
+      function reset(){
+        var $this   = $('.sliderAction');
+        for( var i=0 ; i < slide.nowSetNumber.length ; i++ ){
+          var _inW = $this.find('>.in').width();
+          $this.eq(i).find('.move>ul>li').css({ width : _inW })
+          $this.eq(i).find('.wrap>.move').css({ left : -slide.nowSetNumber[i]*_inW });
+        }
       }
     },
 
@@ -46,8 +65,8 @@ export default function(){
     },
 
     copyContent : function(initialState){
-      var $this = $(initialState.class);
-      var liContentClone = [];
+      var $this           = $(initialState.class);
+      var liContentClone  = [];
       $this.find('ul>li').attr('data-reactid','');
       $this.find('ul>li>').attr('data-reactid','');
       for(var i=0 ; i<2 ; i++){
@@ -67,6 +86,12 @@ export default function(){
       var liBlock   = ulBlock.find('>li');
       var totalLi   = liBlock.length;
       var liBlockWidth = liBlock.width();
+      if( totalLi!=0 ){
+        slide.nowSetNumber.push(totalLi/3);
+      }else{
+        slide.nowSetNumber.push(0);
+      }
+
       moveBlock.css({
         left : (-(totalLi/3)*liBlockWidth)
       })
@@ -74,27 +99,31 @@ export default function(){
 
     touch(initialState){
       var $this     = $(initialState.class);
-      var touchSwitch = false,
-          $workBlock  ,
-          startX      = 0,
-          moveX       = 0,
-          endX        = 0,
-          moveRange   = 0,
-          startNumber = 0,
-          sumSetNumber= 0,
-          nowSetNumber= 0,
-          stepStatus  = 0,
-          maxLength   = 0,
-          workBlockLeftCss = 0;
+      var touchSwitch       = false,
+          $workBlock        ,
+          startX            = 0,
+          moveX             = 0,
+          endX              = 0,
+          moveRange         = 0,
+          startNumber       = 0,
+          sumSetNumber      = 0,
+          nowSetNumber      = 0,
+          stepStatus        = 0,
+          maxLength         = 0,
+          $thisIndex        = 0,
+          workBlockLeftCss  = 0;
 
-      $this.off().on({
+      //$this.off().on({
+      $('.sliderAction').off().on({
         mousedown : function(e) {
           $workBlock        = $(this);
+          $thisIndex        = $workBlock.index();
           touchSwitch       = true;
           moveRange         = $workBlock.find('.wrap').width();
           startNumber       = $workBlock.find('.move>ul>li').length/3;
           maxLength         = ($workBlock.find('.move>ul>li').length/3)*2;
           workBlockLeftCss  = parseInt($workBlock.find('.move').css('left'));
+
           e.preventDefault();
 
           $('body').off().on({
@@ -107,6 +136,7 @@ export default function(){
                 moveX = startX - e.pageX;
                 endX  = workBlockLeftCss-moveX;
                 $workBlock.find('.move').css('left',endX);
+                e.preventDefault();
               }
             },
 
@@ -114,7 +144,7 @@ export default function(){
               touchSwitch  = false;
               stepStatus   = new rangeCheck(moveX,moveRange,sumSetNumber,startNumber);
               sumSetNumber = stepStatus.sumSetNumber;
-              new animateAction($workBlock,moveRange,nowSetNumber,sumSetNumber,startNumber);
+              new animateAction($workBlock,moveRange,nowSetNumber,sumSetNumber,startNumber,$thisIndex);
               $('body').off()
             }
           })
@@ -127,18 +157,20 @@ export default function(){
     }
   }
 
-  const animateAction = ($workBlock,moveRange,nowSetNumber,sumSetNumber,startNumber) => {
-    nowSetNumber = sumSetNumber+startNumber;
+  const animateAction = ($workBlock,moveRange,nowSetNumber,sumSetNumber,startNumber,$thisIndex) => {
+
+    slide.nowSetNumber[$thisIndex] = sumSetNumber+startNumber;
+
     $workBlock.find('.move').animate({
-      left : -(moveRange*nowSetNumber)
+      left : -(moveRange*slide.nowSetNumber[$thisIndex])
     }, 500,function(){
       if( sumSetNumber>=startNumber ){
         $(this).css({
-          left : -(moveRange*(nowSetNumber-startNumber))
+          left : -(moveRange*(slide.nowSetNumber[$thisIndex]-startNumber))
         })
       }else if( sumSetNumber<0 ){
         $(this).css({
-          left : -(moveRange*(nowSetNumber+startNumber))
+          left : -(moveRange*(slide.nowSetNumber[$thisIndex]+startNumber))
         })
       }
     })

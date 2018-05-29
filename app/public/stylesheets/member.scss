@@ -1,0 +1,639 @@
+#member{
+  width     : 100%;
+  max-width : 400px;
+  padding   : 15px;
+  display   : block;
+  margin    : auto;
+  background: #252528;
+  .logo{
+    width: 100%;
+    padding: 0px 0px 15px 0px;
+    text-align: center;
+    display: block;
+    color: #fff;
+    font-size: 1.6em;
+    a{
+      color: #fff;
+    }
+  }
+  input{
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #323235;
+    &.false{
+      padding-left: 35px;
+      background-color : $mainColor1 !important;
+      background-image : url($icon-stop) !important;
+      background-repeat: no-repeat;
+      background-size  : 15px;
+      background-position: 10px center;
+    }
+  }
+
+  button{
+    width: 100%;
+    margin-bottom: 25px;
+    &.login{
+      background-color: #E62117;
+    }
+    &.back{
+      font-size: 0.8em;
+      background-color: transparent;
+      border: 1px solid #444;
+    }
+  }
+  p{
+    font-size: 0.8em;
+    color: #fff;
+    text-align: center;
+    a{
+      color: #E62117;
+    }
+  }
+  ul{
+    &.shear{
+      margin-top: 20px;
+      width: 100%;
+      display: inline-block;
+      text-align: center;
+      >li{
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        flex-wrap: wrap;
+        margin: 0px 5px;
+        background-repeat: no-repeat;
+        background-size: 70%;
+        background-position: center;
+        cursor: pointer;
+        a{
+          width: 100%;
+          height: 100%;
+          display: inline-flex;
+        }
+        button{
+          font-size: 1.3em;
+          padding:0px !important;
+          margin-bottom: 0px;
+          .fa{
+            margin: 0px;
+          }
+          &.facebook-login{
+            background-color: #3b5998;
+          }
+        }
+      }
+    }
+  }
+  @include mobile{
+    max-width : 320px;
+  };
+}
+
+.container{
+  .member{
+    width     : 100%;
+    display   : flex;
+    flex-wrap : wrap;
+    color     : #666;
+    overflow  : auto;
+    align-content: flex-start;
+    >.top,>.bottom{
+      width     : 100%;
+      padding   : 10px 20px;
+      display   : block;
+      flex-wrap : wrap;
+    }
+    >.top{
+      padding-top:30px;
+      background: linear-gradient(to bottom, transparent -80%, #19191B 100%),url(https://www.listenvideo.com/assets/images/artist-big-no-image.png);
+      background-repeat: no-repeat;
+      background-position: center bottom;
+      background-size: cover;
+    }
+    >.bottom{
+      >.top{
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #333;
+        margin-bottom: 15px;
+        #navigation{
+          display   : inline-flex;
+          >li{
+            height      : 50px;
+            padding     : 5px 20px;
+            display     : inline-flex;
+            align-items : center;
+            opacity     : 0.3;
+            font-size   : 0.9em;
+            a{
+              color   : #fff;
+            }
+            &:hover{
+              border-bottom: 3px solid #444;
+              opacity: 1;
+            }
+            &.active{
+              border-bottom: 3px solid $mainColor1;
+              opacity: 1;
+            }
+          }
+        }
+      }
+      >.bottom{
+        width: 100%;
+        min-height: 200px;
+        display: flex;
+        align-items: start;
+        .notdata{
+          margin: auto;
+        }
+      }
+    }
+    .headShot{
+      width   : 15%;
+      display : inline-block;
+      float   : left;
+      overflow: hidden;
+      background-color: #333;
+      @include radius(1000px);
+      &.notHeadShot{
+        padding: 15px;
+      }
+      img{
+        width: 100%;
+        float: left;
+        @include radius(1000px);
+      }
+    }
+    .info{
+      width: 85%;
+      float  : right;
+      display: inline-block;
+      padding-left:20px;
+      .infoTitle{
+        width: 200px;
+      }
+      .infoContent{
+        color: #fff;
+      }
+    }
+
+    .playlist{
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      >ul{
+        &.playlistNav{
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+          >li{
+            width: 20%;
+            height: 150px;
+            padding: 5px;
+            display: inline-block;
+            >article,div,a{
+              &.in{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                position: relative;
+                >.sortTool{
+                  position: absolute;
+                  top: 7px;
+                  right: 7px;
+                  >li{
+                    display: inline-flex;
+                    margin-right: 5px;
+                    &:last-child{
+                      margin-right: 0px;
+                    }
+                    button{
+                      width: 32px;
+                      height: 32px;
+                      border: 1px solid #fff;
+                      background-size: 60%;
+                      background-position: center;
+                    }
+                  }
+                }
+              }
+              &.block{
+                width: 100%;
+                height: 100%;
+                border: 2px solid #666;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                @include radius(5px);
+              }
+              &:hover{
+                border-color: $mainColor1;
+              }
+            }
+            &:first-child{
+              >div{
+                &.block{
+                  border-style       : dashed;
+                  background-image   : url($icon-add);
+                  background-position: center;
+                  background-repeat  : no-repeat;
+                  background-size    : 25px;
+                  cursor             : pointer;
+                }
+                &:hover{
+                  border-color: #fff;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    @include pad{
+      >.top{
+        padding: 50px 5px 20px 5px;
+        justify-content: center;
+        text-align: center;
+        .headShot{
+          width   : 130px;
+          float   : none;
+          display : inline-block;
+          text-align: center;
+          @include radius(1000px);
+          &.notHeadShot{
+            padding: 5%;
+          }
+        }
+        .info{
+          width: 100%;
+          padding-left: 0px;
+          ul{
+            &.list{
+              margin-top: 10px;
+              >li{
+                display: none;
+                &.name{
+                  display: flex;
+                }
+                .infoTitle{
+                  display: none;
+                }
+                .infoContent{
+                  width: 100%;
+                  text-align: center;
+                  font-size: 1.3em;
+                }
+              }
+            }
+          }
+        }
+      }
+      >.bottom{
+        padding: 0px 5px;
+        >.top{
+          margin-bottom: 10px;
+          #navigation{
+            display: inline-flex;
+            >li{
+              height : 50px;
+              padding: 5px 10px;
+              display: inline-flex;
+              align-items: center;
+              text-align : center;
+              font-size  : 0.8em;
+              a{
+                width: 100%;
+                color: #fff;
+              }
+            }
+          }
+        }
+        >.bottom{
+          width: 100%;
+          min-height: 200px;
+          display: flex;
+          align-items: start;
+          .notdata{
+            margin: auto;
+          }
+        }
+      }
+
+      .playlist{
+        >ul{
+          &.playlistNav{
+            >li{
+              width : 33.3333%;
+              height: 140px;
+            }
+          }
+        }
+      }
+    };
+
+    @include min{
+      >.top{
+        padding: 50px 5px 20px 5px;
+        justify-content: center;
+        text-align: center;
+        .headShot{
+          width   : 130px;
+          float   : none;
+          display : inline-block;
+          text-align: center;
+          @include radius(1000px);
+          &.notHeadShot{
+            padding: 5%;
+          }
+        }
+        .info{
+          width: 100%;
+          padding-left: 0px;
+          ul{
+            &.list{
+              margin-top: 10px;
+              >li{
+                display: none;
+                &.name{
+                  display: flex;
+                }
+                .infoTitle{
+                  display: none;
+                }
+                .infoContent{
+                  width: 100%;
+                  text-align: center;
+                  font-size: 1.3em;
+                }
+              }
+            }
+          }
+        }
+      }
+      >.bottom{
+        padding: 0px 5px;
+        >.top{
+          margin-bottom: 10px;
+          #navigation{
+            display: inline-flex;
+            >li{
+              height : 50px;
+              padding: 5px 10px;
+              display: inline-flex;
+              align-items: center;
+              text-align : center;
+              font-size  : 0.8em;
+              a{
+                width: 100%;
+                color: #fff;
+              }
+            }
+          }
+        }
+        >.bottom{
+          width: 100%;
+          min-height: 200px;
+          display: flex;
+          align-items: start;
+          .notdata{
+            margin: auto;
+          }
+        }
+      }
+
+      .playlist{
+        >ul{
+          &.playlistNav{
+            >li{
+              width : 33.3333%;
+              height: 140px;
+            }
+          }
+        }
+      }
+    };
+
+    @include mobile{
+      >.top{
+        padding: 50px 5px 20px 5px;
+        justify-content: center;
+        text-align: center;
+        .headShot{
+          width   : 130px;
+          float   : none;
+          display : inline-block;
+          text-align: center;
+          @include radius(1000px);
+          &.notHeadShot{
+            padding: 5%;
+          }
+        }
+        .info{
+          width: 100%;
+          padding-left: 0px;
+          ul{
+            &.list{
+              margin-top: 10px;
+              >li{
+                display: none;
+                &.name{
+                  display: flex;
+                }
+                .infoTitle{
+                  display: none;
+                }
+                .infoContent{
+                  width: 100%;
+                  text-align: center;
+                  font-size: 1.3em;
+                }
+              }
+            }
+          }
+        }
+      }
+      >.bottom{
+        padding: 0px 5px;
+        >.top{
+          margin-bottom: 10px;
+          #navigation{
+            display: inline-flex;
+            >li{
+              height : 50px;
+              padding: 5px 10px;
+              display: inline-flex;
+              align-items: center;
+              text-align : center;
+              font-size  : 0.9em;
+              a{
+                width: 100%;
+                color: #fff;
+              }
+            }
+          }
+        }
+        >.bottom{
+          width: 100%;
+          min-height: 200px;
+          display: flex;
+          align-items: start;
+          .notdata{
+            margin: auto;
+          }
+        }
+      }
+
+      .playlist{
+        >ul{
+          &.playlistNav{
+            >li{
+              width : 50%;
+              height: 120px;
+            }
+          }
+        }
+      }
+    };
+  }
+
+  .playlistSort{
+    width    : 100%;
+    height   : 100%;
+    z-index  : 10;
+    left     : 0px;
+    background-color: #19191B;
+    transition: bottom .3s;
+    &.true{
+      bottom: 0px;
+    }
+    .in{
+      width     : 100% !important;
+      height    : 100%;
+      display   : flex;
+      flex-wrap : wrap;
+      padding   : 10px 10px 10px 10px;
+      align-content: flex-start;
+    }
+    .top{
+      width   : 100%;
+      height  : 55px;
+      display : flex;
+      justify-content: space-between;
+      color   : #fff;
+      border-bottom: 1px solid #333;
+      section{
+        display: inline-flex;
+        align-items: center;
+        &.name{
+          height: 100%;
+          font-size: 1.1em;
+        }
+      }
+      ul{
+        &.action{
+          display: flex;
+          >li{
+            display: inline-flex;
+            padding-left: 10px;
+            align-self: center;
+            button{
+              width : 35px;
+              height: 35px;
+              background-repeat: no-repeat;
+              background-color: transparent;
+              background-position: center;
+              &.play{
+                width  : auto;
+                padding: 0px 20px;
+                background-color: $mainColor1;
+              }
+              &.close{
+                background-image: url($icon-close);
+                background-position: center;
+                background-size: 20px;
+                border: 1px solid #666;
+              }
+              &.remove{
+                background-image: url($icon-remove);
+                background-size: 20px;
+                border: 1px solid #666;
+              }
+            }
+          }
+        }
+      }
+    }
+    .bottom{
+      width: 100%;
+      display: flex;
+    }
+
+    @include embed{
+      bottom: -100vh;
+      position : absolute;
+    };
+    @include pc{
+      bottom: -100vh;
+      position : absolute;
+    };
+    @include pad{
+      bottom: -100vh;
+      position : absolute;
+      padding-left: 80px;
+    };
+    @include min{
+      height   : 100%;
+      bottom   : -100%;
+      position : fixed;
+      padding-left: 80px;
+    };
+    @include mobile{
+      height   : 100%;
+      bottom   : -100%;
+      position : fixed;
+      >.in{
+        padding   : 0px 10px 10px 10px;
+      }
+      .top{
+        height  : 50px;
+        section{
+          &.name{
+            font-size: 1em;
+          }
+        }
+        ul{
+          &.action{
+            display: flex;
+            >li{
+              display: inline-flex;
+              padding-left: 10px;
+              align-self: center;
+              button{
+                width  : 30px;
+                height : 30px;
+                background-repeat: no-repeat;
+                background-color : transparent;
+                background-position: center;
+                &.play{
+                  font-size: 0.8em;
+                  padding  : 0px 10px;
+                }
+                &.close{
+                  background-size: 18px;
+                }
+                &.remove{
+                  background-size: 18px;
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+  }
+}

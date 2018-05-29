@@ -1,21 +1,24 @@
-import { combineReducers } from "redux";
+export default function index(state={
+    data            : [],
+    theLatestAlbum  : [],
+    kvData          : [],
+    chinesehito     : [],
+    westernhito     : [],
+    japanesehito    : [],
+    artistshito     : [],
+    fetching  : false,
+    fetched   : false,
+    error     : null,
+  },action) {
+    switch(action.type){
+      case 'FETCH_INDEX':
+        state = {...state,fetching:true}
+        break;
 
-import mainBanner   from './mainBannerReducer';
-import hitoAlbum    from './hitoAlbumReducer';
-import albumList    from './albumListReducer';
-import songsList    from './songsListReducer';
-import playList     from './playListReducer';
-import login        from './loginReducer';
-import collection   from './collectionReducer';
-import audio        from './audioReducer';
+      case 'FETCH_INDEX_FULFILLED':
+        state = {...state, fetching : true, fetched : true, theLatestAlbum : action.theLatestAlbum, kvData:action.kvData, chinesehito: action.chinesehito, westernhito:action.westernhito, japanesehito:action.japanesehito, koreanhito:action.koreanhito, artistshito:action.artistshito}
+        break;
+    }
 
-export default combineReducers({
-  mainBanner,
-  hitoAlbum,
-  albumList,
-  songsList,
-  playList,
-  login,
-  collection,
-  audio
-})
+    return state;
+  }

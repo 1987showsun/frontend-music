@@ -1,15 +1,20 @@
-import axios from 'axios';
+import axios      from 'axios';
+import mongodbURL from './dbURL';
 
-export function albumListAction(props){
-  const paramName = props.params.paramName;
+export const albumListAction = (paramName,nowpage) => {
+  let url   = mongodbURL();
   return function(dispatch){
     dispatch({type: "FETCH_ALBUMLIST"});
-    axios.get('http://localhost:5000/albumlist/'+paramName)
-      .then((response) => {
-        dispatch({type: "FETCH_ALBUMLIST_FULFILLED", paylod:response.data})
-      })
-      .catch((err) => {
-        dispatch({type: "FETCH_ALBUMLIST_REJECTED", payload: err});
-      })
+    axios.get(url+'/albumlist/'+paramName,{
+      params: {
+        nowpage: nowpage
+      }
+    })
+    .then((response) => {
+      dispatch({type: "FETCH_ALBUMLIST_FULFILLED", albumsListData: response.data.data})
+    })
+    .catch((err) => {
+      dispatch({type: "FETCH_ALBUMLIST_REJECTED", payload: err});
+    })
   }
 }

@@ -1,0 +1,183 @@
+#playerWindow{
+  width    : 100vw;
+  position : fixed;
+  z-index  : 101;
+  left     : 0px;
+  display  : flex;
+  flex-wrap: wrap;
+  background-color: #19191B;
+  transition      : bottom .3s;
+  &.true{
+    bottom: 0vh;
+  }
+  >.close{
+    width           : 40px;
+    border          : none;
+    background-color: transparent;
+    background-image: url($icon-close);
+    background-size: 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    z-index: 10;
+  }
+  >.shera{
+    display: inline-flex;
+    height: 100vh;
+    position: relative;
+    &.main{
+      width: 85%;
+      background-color: #000;
+      iframe{
+        width: 100%;
+        height: 100%;
+        border: none !important;
+      }
+    }
+    &.vic{
+      width       : 15%;
+      padding-top : 45px;
+      >.title{
+        width  : 100%;
+        height : 45px;
+        display: flex;
+        padding: 0 0 0 10px;
+        border-bottom: 1px solid #333;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        position: absolute;
+        z-index : 2;
+        top     : 0px;
+        left    : 0px;
+        >span{
+          color:#fff;
+          font-size: 1.1em;
+        }
+      }
+      >.block{
+        width   : 100%;
+        height  : 100%;
+        display : flex;
+        overflow: auto;
+      }
+    }
+  }
+
+  @include embed{
+    height   : 100vh;
+    bottom   : -100vh;
+    >.close{
+      top: 2px;
+      right: 2px;
+    }
+  };
+  @include pc{
+    height   : 100vh;
+    bottom   : -100vh;
+    >.close{
+      top: 2px;
+      right: 2px;
+    }
+    >.shera{
+      &.main{
+        width: 80%;
+      }
+      &.vic{
+        width: 20%;
+      }
+    }
+  };
+  @include pad{
+    height   : 100vh;
+    bottom   : -100vh;
+    >.close{
+      top: 2px;
+      right: 2px;
+    }
+    >.shera{
+      &.main{
+        width: 75%;
+      }
+      &.vic{
+        width: 25%;
+      }
+    }
+  };
+  @include min{
+    height   : 100%;
+    bottom   : -100%;
+    >.close{
+      top: 10px;
+      right: 10px;
+    }
+    >.shera{
+      &.main{
+        width : 100%;
+        height: 82%;
+      }
+      &.vic{
+        width  : 100%;
+        height : 18%;
+        padding-top: 0px;
+        >.title{
+          display: none;
+        }
+        >.block{
+          >ul{
+            margin-top: 0px;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            >li{
+              width: 200px;
+              height: 100%;
+              padding: 5px;
+              figure{
+                height: 100%;
+                align-items: center;
+                display: inline-flex;
+                img{
+                  width: 50%;
+                  max-width: 85px;
+                  display: inline-block;
+                }
+                figcaption{
+                  height: auto;
+                  display: inline-block;
+                  overflow: hidden;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+  @include mobile{
+    height   : 100%;
+    bottom   : -100%;
+    padding-top: 45px;
+    >.close{
+      top: 2px;
+      right: 2px;
+    }
+    >.shera{
+      &.main{
+        width: 100%;
+        height: 35%;
+      }
+      &.vic{
+        width: 100%;
+        height: 65%;
+        position: initial;
+        padding-top: 0px;
+        >.block{
+          flex-direction: column;
+          ul{
+            flex-direction:initial;
+          }
+        }
+      }
+    }
+  };
+}

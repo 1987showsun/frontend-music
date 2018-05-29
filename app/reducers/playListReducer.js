@@ -1,10 +1,11 @@
 import Playlist from '../components/module/playlist';
 
 export default function playListReducer(state={
-    data     : [],
-    fetching : false,
-    fetched  : false,
-    error    : null,
+    data          : [],
+    selectListen  : [],
+    fetching      : false,
+    fetched       : false,
+    error         : null,
   },action) {
     switch(action.type){
       case 'FETCH_PLAYLIST':
@@ -21,7 +22,25 @@ export default function playListReducer(state={
         break;
 
       case 'SELECT_LISTEN' :
+        //console.log(action.paylod);
         state = {...state, selectListen : action.paylod}
+        break;
+
+      case 'DELETE_LISTEN' :
+        var playListArray = JSON.parse( sessionStorage.getItem('playlist') );
+        playListArray.map( (item,i)=>{
+          if( item._id==action.paylod ){
+            playListArray.splice(i,1);
+          }
+        })
+        state = {...state, fetching : true, fetched : true, data : playListArray}
+        sessionStorage.setItem('playlist',JSON.stringify(playListArray) );
+        break;
+
+      case 'ADD_ALL_PLAYLIST_SONGS' :
+        //console.log(action.paylod.data);
+        state = {...state, fetching : true, fetched : true, data : action.paylod.data}
+        sessionStorage.setItem('playlist',JSON.stringify(action.paylod.data) );
         break;
     }
 

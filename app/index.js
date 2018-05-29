@@ -1,41 +1,81 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React,{Component}  from 'react';
+import ReactDOM           from 'react-dom';
+import {Provider}         from 'react-redux';
+import store              from "./store";
 import { Router, Route, IndexRoute, browserHistory,hashHistory } from 'react-router';
-import {Provider} from 'react-redux';
-import store    from "./store";
 
+//Compoent
 import Layout       from './components/common/Layout';
-import Home         from './components/Home';
+import Home         from './components/Home/index';
 import Album        from './components/Album/index';
+import SongsIndex   from './components/songs/index';
 import Songs        from './components/Album/songs';
 import About        from './components/About';
-import User         from './components/User';
 import Contacts     from './components/Contacts';
-import Member       from './components/member'
-import LoginPage    from './components/member/login';
-import JoinPage    from './components/member/join';
-import MemberInfo   from './components/member/MemberInfo';
+import Member       from './components/member/index';
+import Signin       from './components/member/signIn';
+import Signup       from './components/member/signUp';
+import Profile      from './components/member/profile';
 import Collection   from './components/member/collection';
+import ArtistsIndex from './components/artists/index';
+import ArtistsList  from './components/artists/artistsList';
+import BlockList    from './components/module/listBlock';
+import ColumnList   from './components/module/listColumn';
+import Privacy      from './components/member/privacy';
+import Chat         from './components/chat';
 
 export default class Routers extends React.Component{
   render(){
     return(
-      <Router history={hashHistory}>
+      <Router history={browserHistory}>
         <Route path="/" component={Layout}>
           <IndexRoute component={Home} />
-          <Route path="info(/:paramName)" component={Album}/>
           <Route path="about" component={About} />
-          <Route path="user" component={User} />
+
           <Route path="contacts" component={Contacts} />
-          <Route path="album/:id" component={Songs} />
-          <Route path="m-info" component={MemberInfo}>
-            <Route path=":theme" component={Collection}/>
+
+          <Route path="chat" component={Chat} />
+
+          <Route path="albums" component={Album} >
+            <IndexRoute component={Album} />
+            <Route path=":paramName" component={BlockList} />
           </Route>
+          <Route path="albums/:paramName/:id" component={Songs} />
+          <Route path="albums/:paramName/:id/:videoId" component={Songs} />
+
+          <Route path="top50" component={Album} >
+            <IndexRoute component={Album} />
+            <Route path=":paramName" component={BlockList} />
+          </Route>
+          <Route path="top50/:paramName/:id" component={Songs} />
+
+          <Route path="top100Songs" component={SongsIndex} >
+            <IndexRoute component={SongsIndex} />
+            <Route path=":paramName" component={ColumnList} />
+          </Route>
+
+          <Route path="user" component={Profile}>
+            <IndexRoute component={Collection} />
+            <Route path=":theme" component={Collection}>
+              <Route path=":playListSort" component={Collection}/>
+            </Route>
+          </Route>
+
+          <Route path="/artists" component={ArtistsIndex}>
+            <IndexRoute component={ArtistsList} />
+            <Route path=":area" component={ArtistsList}>
+              <Route path=":id" component={ArtistsList}/>
+            </Route>
+          </Route>
+
+          <Route path="/privacy" component={Privacy}/>
         </Route>
+
         <Route path="member" component={Member}>
-          <Route path="login" component={LoginPage} />
-          <Route path="join" component={JoinPage} />
+          <Route path="-signin" component={Signin}/>
+          <Route path="-signup" component={Signup}/>
         </Route>
+
       </Router>
     );
   }

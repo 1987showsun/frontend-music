@@ -1,0 +1,10 @@
+#about{
+  color: #999;
+  &.content{
+    p{
+      margin-bottom: 20px;
+      font-size: 1em;
+      line-height: 1.7em;
+    }
+  }
+}
